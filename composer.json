@@ -1,0 +1,25 @@
+{
+    "name": "adamb/image-upload",
+    "description": "A PHP class to upload images and create thumbnails if required",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Binnersley",
+            "email": "abinnersley@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ImgUpload\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ImgUpload\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3"
+    }
+}
