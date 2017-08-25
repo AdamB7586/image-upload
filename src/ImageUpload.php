@@ -17,6 +17,8 @@ class ImageUpload implements UploadInterface{
     
     public $createThumb = false;
     public $thumbWidth = 200;
+    
+    protected $imageInfo = false;
 
     /**
      * Constructor
