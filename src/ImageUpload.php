@@ -69,9 +69,7 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setMinWidth($width) {
-        if(is_int($width)) {
-            $this->minWidth = $width;
-        }
+        $this->minWidth = intval($width);
         return $this;
     }
     
@@ -89,9 +87,7 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setMinHeight($height) {
-        if(is_int($height)) {
-            $this->minHeight = $height;
-        }
+        $this->minHeight = intval($height);
         return $this;
     }
     
@@ -109,9 +105,7 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setMaxFileSize($bytes) {
-        if(is_int($bytes)) {
-            $this->maxFileSize = $bytes;
-        }
+        $this->maxFileSize = intval($bytes);
         return $this;
     }
     
