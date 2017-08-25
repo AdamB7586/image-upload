@@ -16,7 +16,7 @@ class ImageUploadTest extends TestCase{
         unset($this->upload);
     }
     
-    public function exampleTest(){
+    public function testExample(){
         $this->markTestIncomplete('This test has not yet been implemented');
     }
 }
