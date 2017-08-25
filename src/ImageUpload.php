@@ -204,11 +204,11 @@ class ImageUpload implements UploadInterface{
             $imgt = "ImageGIF";
             $imgcreatefrom = "ImageCreateFromGIF";
         }
-        if($this->imageInfo['type'] == 2) {
+        elseif($this->imageInfo['type'] == 2) {
             $imgt = "ImageJPEG";
             $imgcreatefrom = "ImageCreateFromJPEG";
         }
-        if($this->imageInfo['type'] == 3) {
+        elseif($this->imageInfo['type'] == 3) {
             $imgt = "ImagePNG";
             $imgcreatefrom = "ImageCreateFromPNG";
         }
@@ -230,8 +230,8 @@ class ImageUpload implements UploadInterface{
      */
     public function deleteImage($image) {
         if(file_exists($this->getRootFolder().$this->getImageFolder().$image["name"])){
-            unlink($this->imageLocation.$image["name"]);
-            unlink($this->imageLocation.$this->getThumbFolder().$image["name"]);
+            unlink($this->getRootFolder().$this->getImageFolder().$image["name"]);
+            unlink($this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$image["name"]);
             return true;
         }
         return false;
