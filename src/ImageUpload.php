@@ -9,7 +9,7 @@ class ImageUpload implements UploadInterface{
     protected static $imageFolder = 'images/';
     protected static $thumbnailDir = 'thumbs/';
     
-    public $maxFileSize = 7240000; //7MB Approx
+    public $maxFileSize = 9000000;
     public $imageSize = 0;
     public $allowedExt = array('gif', 'jpg', 'jpeg', 'png');
     public $minWidth = 200;
@@ -322,7 +322,7 @@ class ImageUpload implements UploadInterface{
      */
     public function getErrorMsg() {
         if($this->errorNo == 1){return 'The image is not a valid image format';}
-        elseif($this->errorNo == 2){return 'The image is too large to upload please make sure your image is smaller than 5MB in size your image is '.$this->imageSize;}
+        elseif($this->errorNo == 2){return 'The image is too large to upload please make sure your image is smaller than '. number_format(($this->maxFileSize / 100000), 2).'MB in size your image is '.$this->imageSize;}
         elseif($this->errorNo == 3){return 'The image is not allowed! Please make sure your image has of of the allowed extensions';}
         elseif($this->errorNo == 4){return 'The image with this name has already been uploaded or already exists on our server!';}
         elseif($this->errorNo == 5){return 'The image dimensions are too small. It must be greater than 200px in width and 150px in height';}
