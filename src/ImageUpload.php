@@ -192,28 +192,40 @@ class ImageUpload implements UploadInterface{
      * Create a thumbnail for the given image
      * @param file $image This should be the $_FILES['image']
      */
-    protected function createImageThumb($image) {
-        $new_height = intval($this->imageInfo['height'] * ($this->thumbWidth / $this->imageInfo['width']));
-        if($this->imageInfo['type'] == 1) {
-            $imgt = "ImageGIF";
-            $imgcreatefrom = "ImageCreateFromGIF";
-        }
-        elseif($this->imageInfo['type'] == 2) {
-            $imgt = "ImageJPEG";
-            $imgcreatefrom = "ImageCreateFromJPEG";
-        }
-        elseif($this->imageInfo['type'] == 3) {
-            $imgt = "ImagePNG";
-            $imgcreatefrom = "ImageCreateFromPNG";
-        }
-        if($imgt) {
-            $old_image = $imgcreatefrom($this->getRootFolder().$this->getImageFolder().basename($image['name']));
-            imagealphablending($old_image, true);
-            $new_image = imagecreatetruecolor($this->thumbWidth, $new_height);
-            imagealphablending($new_image, false);
-            imagesavealpha($new_image, true);
-            imagecopyresized($new_image, $old_image, 0, 0, 0, 0, $this->thumbWidth, $new_height, $this->imageInfo['width'], $this->imageInfo['height']);
-            $imgt($new_image, $this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$image['name']);
+    public function createImageThumb($image) {
+        $this->createCroppedImageThumb($image, 0, 0, $this->imageInfo['width'], $this->imageInfo['height']);
+    }
+    
+    /**
+     * Create a cropped image thumbnail for the given image based on given locations
+     * @param file $image This should be the $_FILES['image']
+     * @param int $x x-coordinate of start point
+     * @param int $y y-coordinate of start point
+     * @param int $w Source width
+     * @param int $h Source height
+     */
+    public function createCroppedImageThumb($image, $x, $y, $w, $h){
+        if($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)){
+            $new_height = intval($this->imageInfo['height'] * ($this->thumbWidth / $this->imageInfo['width']));
+            if($this->imageInfo['type'] == 1) {
+                $imgt = "ImageGIF";
+                $imgcreatefrom = "ImageCreateFromGIF";
+            }
+            elseif($this->imageInfo['type'] == 2) {
+                $imgt = "ImageJPEG";
+                $imgcreatefrom = "ImageCreateFromJPEG";
+            }
+            elseif($this->imageInfo['type'] == 3) {
+                $imgt = "ImagePNG";
+                $imgcreatefrom = "ImageCreateFromPNG";
+            }
+            if($imgt) {
+                $old_image = $imgcreatefrom($this->getRootFolder().$this->getImageFolder().basename($image['name']));
+                imagealphablending($old_image, true);
+                $new_image = imagecreatetruecolor($this->thumbWidth, $new_height);
+                imagecopyresampled($new_image, $old_image, 0, 0, $x, $y, $this->thumbWidth, $new_height, $w, $h);
+                $imgt($new_image, $this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$image['name']);
+            }
         }
     }
     
