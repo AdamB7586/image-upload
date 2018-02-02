@@ -176,10 +176,10 @@ class ImageUpload implements UploadInterface{
      * @return boolean Returns true if image uploaded successfully else returns false
      */
     public function uploadImage($image) {
-        if($image['name']){
+        if($this->checkFileName($image['name'])){
             $this->checkDirectoryExists($this->getRootFolder().$this->getImageFolder());
             if($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)){
-                if(move_uploaded_file($image['tmp_name'], $this->getRootFolder().$this->getImageFolder().basename($image['name']))){
+                if(move_uploaded_file($image['tmp_name'], $this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])))){
                     if($this->createThumb === true){$this->createImageThumb($image);}
                     return true;
                 }
@@ -220,11 +220,11 @@ class ImageUpload implements UploadInterface{
                 $imgcreatefrom = "ImageCreateFromPNG";
             }
             if($imgt) {
-                $old_image = $imgcreatefrom($this->getRootFolder().$this->getImageFolder().basename($image['name']));
+                $old_image = $imgcreatefrom($this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])));
                 imagealphablending($old_image, true);
                 $new_image = imagecreatetruecolor($this->thumbWidth, $new_height);
                 imagecopyresampled($new_image, $old_image, 0, 0, $x, $y, $this->thumbWidth, $new_height, $w, $h);
-                $imgt($new_image, $this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$image['name']);
+                $imgt($new_image, $this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$this->checkFileName($image['name']));
             }
         }
     }
@@ -235,9 +235,9 @@ class ImageUpload implements UploadInterface{
      * @return boolean Returns true if deleted else returns false
      */
     public function deleteImage($image) {
-        if(file_exists($this->getRootFolder().$this->getImageFolder().$image["name"])){
-            unlink($this->getRootFolder().$this->getImageFolder().$image["name"]);
-            unlink($this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$image["name"]);
+        if(file_exists($this->getRootFolder().$this->getImageFolder().$this->checkFileName($image["name"]))){
+            unlink($this->getRootFolder().$this->getImageFolder().$this->checkFileName($image["name"]));
+            unlink($this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$this->checkFileName($image["name"]));
             return true;
         }
         return false;
@@ -277,7 +277,7 @@ class ImageUpload implements UploadInterface{
      * @return boolean Returns true if allowed else returns false
      */
     protected function imageExtCheck($image) {
-        $fileType = strtolower(pathinfo($this->getRootFolder().$this->getImageFolder().$image['name'], PATHINFO_EXTENSION));
+        $fileType = strtolower(pathinfo($this->getRootFolder().$this->getImageFolder().$this->checkFileName($image['name']), PATHINFO_EXTENSION));
         if(in_array($fileType, $this->allowedExt)) {
             return true;
         }
@@ -291,7 +291,7 @@ class ImageUpload implements UploadInterface{
      * @return boolean Returns true if image exists else return false
      */
     protected function imageExist($image) {
-        if(file_exists($this->getRootFolder().$this->getImageFolder().basename($image["name"]))){
+        if(file_exists($this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image["name"])))){
             $this->errorNo = 4;
             return true;
         }
@@ -336,5 +336,14 @@ class ImageUpload implements UploadInterface{
             5 => 'The image dimensions are too small. It must be greater than 200px in width and 150px in height'
         );
         return $errors[intval($this->errorNo)];
+    }
+    
+    /**
+     * Remove any invalid characters from the filename
+     * @param string $name This should be the original filename
+     * @return string The filename will be returned with any invalid characters removed
+     */
+    protected function checkFileName($name){
+        return preg_replace('/[^a-z0-9-_]/i', '', $name);
     }
 }
