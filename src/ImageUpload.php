@@ -172,7 +172,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Upload an image to the server
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      * @return boolean Returns true if image uploaded successfully else returns false
      */
     public function uploadImage($image) {
@@ -190,7 +190,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Create a thumbnail for the given image
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      */
     public function createImageThumb($image) {
         $this->createCroppedImageThumb($image, 0, 0, $this->imageInfo['width'], $this->imageInfo['height']);
@@ -198,7 +198,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Create a cropped image thumbnail for the given image based on given locations
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      * @param int $x x-coordinate of start point
      * @param int $y y-coordinate of start point
      * @param int $w Source width
@@ -245,7 +245,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Checks to see if the image is a real image
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      * @return string|boolean If the image is real the mime type will be returned else will return false
      */
     protected function isImageReal($image) {
@@ -259,7 +259,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Checks to see if the image is within the allowed size limit
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      * @return boolean Returns true if allowed size else returns false
      */
     protected function imageSizeCheck($image) {
@@ -273,7 +273,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Checks to see if the image has one of the allowed extensions
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      * @return boolean Returns true if allowed else returns false
      */
     protected function imageExtCheck($image) {
@@ -287,7 +287,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Checks to see if a image with the same name already exists on the server
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      * @return boolean Returns true if image exists else return false
      */
     protected function imageExist($image) {
@@ -300,7 +300,7 @@ class ImageUpload implements UploadInterface{
     
     /**
      * Makes sure that the image dimensions are greater or equal to the minimum dimensions
-     * @param file $image This should be the $_FILES['image']
+     * @param array $image This should be the $_FILES['image']
      * @return boolean Returns true if the image dimensions are greater or equal else returns false
      */
     protected function sizeGreaterThan($image) {
