@@ -6,8 +6,8 @@ class ImageUpload implements UploadInterface{
     protected $errorNo;
     protected static $rootFolder;
     
-    protected static $imageFolder = 'images/';
-    protected static $thumbnailDir = 'thumbs/';
+    protected static $imageFolder = 'images'.DIRECTORY_SEPARATOR;
+    protected static $thumbnailDir = 'thumbs'.DIRECTORY_SEPARATOR;
     
     public $maxFileSize = 9000000;
     public $imageSize = 0;
@@ -24,7 +24,7 @@ class ImageUpload implements UploadInterface{
      * Constructor
      */
     public function __construct() {
-        $this->setRootFolder(getcwd().DIRECTORY_SEPARATOR);
+        $this->setRootFolder(getcwd());
     }
     
     /**
@@ -56,10 +56,8 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setMinWidthHeight($width, $height) {
-        if(is_int($width) && is_int($height)) {
-            $this->minWidth = $width;
-            $this->minHeight = $height;
-        }
+        $this->setMinWidth($width);
+        $this->setMinHeight($height);
         return $this;
     }
     
@@ -69,7 +67,9 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setMinWidth($width) {
-        $this->minWidth = intval($width);
+        if(is_numeric($width)){
+            $this->minWidth = intval($width);
+        }
         return $this;
     }
     
@@ -87,7 +87,9 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setMinHeight($height) {
-        $this->minHeight = intval($height);
+        if(is_numeric($height)){
+            $this->minHeight = intval($height);
+        }
         return $this;
     }
     
@@ -105,7 +107,9 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setMaxFileSize($bytes) {
-        $this->maxFileSize = intval($bytes);
+        if(is_numeric($bytes)){
+            $this->maxFileSize = intval($bytes);
+        }
         return $this;
     }
     
@@ -122,7 +126,9 @@ class ImageUpload implements UploadInterface{
      * @param string $folder This should be the file location where images are uploaded to
      */
     public function setRootFolder($folder) {
-        self::$rootFolder = $folder;
+        if(is_string($folder)){
+            self::$rootFolder = trim($folder, '\/').DIRECTORY_SEPARATOR;
+        }
         return $this;
     }
     
@@ -140,7 +146,9 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setImageFolder($folder) {
-        self::$imageFolder = $folder;
+        if(is_string($folder)){
+            self::$imageFolder = trim($folder, '\/').DIRECTORY_SEPARATOR;
+        }
         return $this;
     }
     
@@ -158,7 +166,9 @@ class ImageUpload implements UploadInterface{
      * @return $this
      */
     public function setThumbFolder($folder) {
-        self::$thumbnailDir = $folder;
+        if(is_string($folder)){
+            self::$thumbnailDir = trim($folder, '\/').DIRECTORY_SEPARATOR;
+        }
         return $this;
     }
     
