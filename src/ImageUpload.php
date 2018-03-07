@@ -127,7 +127,7 @@ class ImageUpload implements UploadInterface{
      */
     public function setRootFolder($folder) {
         if(is_string($folder)){
-            self::$rootFolder = trim($folder, '\/').DIRECTORY_SEPARATOR;
+            self::$rootFolder = rtrim($folder, '\/').DIRECTORY_SEPARATOR;
         }
         return $this;
     }
