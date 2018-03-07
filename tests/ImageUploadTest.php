@@ -18,6 +18,15 @@ class ImageUploadTest extends TestCase{
     
     /**
      * @covers ImgUpload\ImageUpload::__construct
+     * @covers ImgUpload\ImageUpload::__get
+     * @covers ImgUpload\ImageUpload::__set
+     */
+    public function testGettersSetters(){
+        $this->markTestIncomplete();
+    }
+    
+    /**
+     * @covers ImgUpload\ImageUpload::__construct
      * @covers ImgUpload\ImageUpload::setRootFolder
      * @covers ImgUpload\ImageUpload::setMinWidthHeight
      * @covers ImgUpload\ImageUpload::setMinWidth
