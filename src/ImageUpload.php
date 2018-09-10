@@ -19,6 +19,12 @@ class ImageUpload implements UploadInterface{
     public $thumbWidth = 200;
     
     protected $imageInfo = false;
+    
+    protected $types = [
+        1 => ['type' => 'ImageGIF', 'create' => 'ImageCreateFromGIF'],
+        2 => ['type' => 'ImageJPEG', 'create' => 'ImageCreateFromJPEG'],
+        3 => ['type' => 'ImagePNG', 'create' => 'ImageCreateFromPNG']
+    ];
 
     /**
      * Constructor
@@ -217,19 +223,9 @@ class ImageUpload implements UploadInterface{
     public function createCroppedImageThumb($image, $x, $y, $w, $h){
         if($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)){
             $new_height = intval($this->imageInfo['height'] * ($this->thumbWidth / $this->imageInfo['width']));
-            if($this->imageInfo['type'] == 1) {
-                $imgt = "ImageGIF";
-                $imgcreatefrom = "ImageCreateFromGIF";
-            }
-            elseif($this->imageInfo['type'] == 2) {
-                $imgt = "ImageJPEG";
-                $imgcreatefrom = "ImageCreateFromJPEG";
-            }
-            elseif($this->imageInfo['type'] == 3) {
-                $imgt = "ImagePNG";
-                $imgcreatefrom = "ImageCreateFromPNG";
-            }
-            if(isset($imgt)) {
+            $imgt = $this->types[$this->imageInfo['type']]['type'];
+            $imgcreatefrom = $this->types[$this->imageInfo['type']]['create'];
+            if(!empty($imgt)) {
                 $old_image = $imgcreatefrom($this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])));
                 imagealphablending($old_image, true);
                 $new_image = imagecreatetruecolor($this->thumbWidth, $new_height);
