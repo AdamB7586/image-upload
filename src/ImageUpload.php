@@ -186,13 +186,11 @@ class ImageUpload implements UploadInterface{
      * @return boolean Returns true if image uploaded successfully else returns false
      */
     public function uploadImage($image) {
-        if($this->checkFileName($image['name'])){
+        if($this->checkFileName($image['name']) && $this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)){
             $this->checkDirectoryExists($this->getRootFolder().$this->getImageFolder());
-            if($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)){
-                if(move_uploaded_file($image['tmp_name'], $this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])))){
-                    if($this->createThumb === true){$this->createImageThumb($image);}
-                    return true;
-                }
+            if(move_uploaded_file($image['tmp_name'], $this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])))){
+                $this->createImageThumb($image);
+                return true;
             }
         }
         return false;
@@ -203,7 +201,9 @@ class ImageUpload implements UploadInterface{
      * @param array $image This should be the $_FILES['image']
      */
     public function createImageThumb($image) {
-        $this->createCroppedImageThumb($image, 0, 0, $this->imageInfo['width'], $this->imageInfo['height']);
+        if($this->createThumb === true){
+            $this->createCroppedImageThumb($image, 0, 0, $this->imageInfo['width'], $this->imageInfo['height']);
+        }
     }
     
     /**
@@ -229,7 +229,7 @@ class ImageUpload implements UploadInterface{
                 $imgt = "ImagePNG";
                 $imgcreatefrom = "ImageCreateFromPNG";
             }
-            if($imgt) {
+            if(isset($imgt)) {
                 $old_image = $imgcreatefrom($this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])));
                 imagealphablending($old_image, true);
                 $new_image = imagecreatetruecolor($this->thumbWidth, $new_height);
