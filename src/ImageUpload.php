@@ -9,14 +9,14 @@ class ImageUpload implements UploadInterface{
     protected static $imageFolder = 'images'.DIRECTORY_SEPARATOR;
     protected static $thumbnailDir = 'thumbs'.DIRECTORY_SEPARATOR;
     
-    public $maxFileSize = 9000000;
+    public $maxFileSize = 20000000; // 20MB
     public $imageSize = 0;
-    public $allowedExt = array('gif', 'jpg', 'jpeg', 'png');
-    public $minWidth = 200;
-    public $minHeight = 150;
+    public $allowedExt = ['gif', 'jpg', 'jpeg', 'png'];
+    public $minWidth = 400;
+    public $minHeight = 300;
     
     public $createThumb = false;
-    public $thumbWidth = 200;
+    public $thumbWidth = 400;
     
     protected $imageInfo = false;
     
@@ -108,8 +108,8 @@ class ImageUpload implements UploadInterface{
     }
     
     /**
-     * Sets the maximum image filesize that should be uploaded in bytes
-     * @param int $bytes The should be the maximum filesize in bytes
+     * Sets the maximum image file size that should be uploaded in bytes
+     * @param int $bytes The should be the maximum file size in bytes
      * @return $this
      */
     public function setMaxFileSize($bytes) {
@@ -120,7 +120,7 @@ class ImageUpload implements UploadInterface{
     }
     
     /**
-     * Returns the maximum filesize that is allowed to be uploaded in bytes 
+     * Returns the maximum file size that is allowed to be uploaded in bytes 
      * @return int The number of bytes will be returned
      */
     public function getMaxFileSize() {
@@ -333,14 +333,14 @@ class ImageUpload implements UploadInterface{
      * @return string Returns the error message
      */
     public function getErrorMsg() {
-        $errors = array(
+        $errors = [
             0 => 'An error occured while adding the image. Please try again!',
             1 => 'The image is not a valid image format',
             2 => 'The image is too large to upload please make sure your image is smaller than '. number_format(($this->maxFileSize / 100000), 2).'MB in size your image is '.$this->imageSize,
             3 => 'The image is not allowed! Please make sure your image has one of the allowed extensions',
             4 => 'The image with this name has already been uploaded or already exists on our server!',
             5 => 'The image dimensions are too small. It must be greater than 200px in width and 150px in height'
-        );
+        ];
         return $errors[intval($this->errorNo)];
     }
     
