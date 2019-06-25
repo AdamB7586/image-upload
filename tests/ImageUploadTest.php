@@ -35,14 +35,14 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::getMinHeight
      */
     public function testSetMinWidthHeight() {
-        $this->assertEquals(200, $this->upload->getMinWidth());
-        $this->assertEquals(150, $this->upload->getMinHeight());
+        $this->assertEquals(400, $this->upload->getMinWidth());
+        $this->assertEquals(300, $this->upload->getMinHeight());
         $this->assertObjectHasAttribute('minWidth', $this->upload->setMinWidthHeight(500, false));
         $this->assertEquals(500, $this->upload->getMinWidth());
-        $this->assertEquals(150, $this->upload->getMinHeight());
+        $this->assertEquals(300, $this->upload->getMinHeight());
         $this->assertObjectHasAttribute('minWidth', $this->upload->setMinWidthHeight('Hello', 'World'));
         $this->assertEquals(500, $this->upload->getMinWidth());
-        $this->assertEquals(150, $this->upload->getMinHeight());
+        $this->assertEquals(300, $this->upload->getMinHeight());
         $this->assertObjectHasAttribute('minWidth', $this->upload->setMinWidthHeight(false, 200));
         $this->assertEquals(500, $this->upload->getMinWidth());
         $this->assertEquals(200, $this->upload->getMinHeight());
@@ -55,7 +55,7 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::getMaxFileSize
      */
     public function testMaxFileSize() {
-        $this->assertEquals(9000000, $this->upload->getMaxFileSize());
+        $this->assertEquals(20000000, $this->upload->getMaxFileSize());
         $this->assertObjectHasAttribute('maxFileSize', $this->upload->setMaxFileSize('8000000'));
         $this->assertEquals(8000000, $this->upload->getMaxFileSize());
         $this->assertObjectHasAttribute('maxFileSize', $this->upload->setMaxFileSize('Hello'));
