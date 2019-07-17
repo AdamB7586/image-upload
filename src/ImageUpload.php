@@ -4,10 +4,10 @@ namespace ImgUpload;
 
 class ImageUpload implements UploadInterface{
     protected $errorNo;
-    protected static $rootFolder;
+    protected $rootFolder;
     
-    protected static $imageFolder = 'images'.DIRECTORY_SEPARATOR;
-    protected static $thumbnailDir = 'thumbs'.DIRECTORY_SEPARATOR;
+    protected $imageFolder = 'images'.DIRECTORY_SEPARATOR;
+    protected $thumbnailDir = 'thumbs'.DIRECTORY_SEPARATOR;
     
     public $maxFileSize = 20000000; // 20MB
     public $imageSize = 0;
@@ -133,7 +133,7 @@ class ImageUpload implements UploadInterface{
      */
     public function setRootFolder($folder) {
         if(is_string($folder)){
-            self::$rootFolder = rtrim($folder, '\/').DIRECTORY_SEPARATOR;
+            $this->rootFolder = rtrim($folder, '\/').DIRECTORY_SEPARATOR;
         }
         return $this;
     }
@@ -143,7 +143,7 @@ class ImageUpload implements UploadInterface{
      * @return string This will be the upload directory
      */
     public function getRootFolder() {
-        return self::$rootFolder;
+        return $this->rootFolder;
     }
     
     /**
@@ -153,7 +153,7 @@ class ImageUpload implements UploadInterface{
      */
     public function setImageFolder($folder) {
         if(is_string($folder)){
-            self::$imageFolder = trim($folder, '\/').DIRECTORY_SEPARATOR;
+            $this->imageFolder = trim($folder, '\/').DIRECTORY_SEPARATOR;
         }
         return $this;
     }
@@ -163,7 +163,7 @@ class ImageUpload implements UploadInterface{
      * @return string Will return the folder where the main images will be uploaded
      */
     public function getImageFolder(){
-        return self::$imageFolder;
+        return $this->imageFolder;
     }
     
     /**
@@ -173,7 +173,7 @@ class ImageUpload implements UploadInterface{
      */
     public function setThumbFolder($folder) {
         if(is_string($folder)){
-            self::$thumbnailDir = trim($folder, '\/').DIRECTORY_SEPARATOR;
+            $this->thumbnailDir = trim($folder, '\/').DIRECTORY_SEPARATOR;
         }
         return $this;
     }
@@ -183,7 +183,7 @@ class ImageUpload implements UploadInterface{
      * @return string Will return the folder where the thumbnails will be uploaded
      */
     public function getThumbFolder(){
-        return self::$thumbnailDir;
+        return $this->thumbnailDir;
     }
     
     /**
