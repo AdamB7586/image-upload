@@ -241,7 +241,7 @@ class ImageUpload implements UploadInterface{
      * @return boolean Returns true if deleted else returns false
      */
     public function deleteImage($image) {
-        if(file_exists($this->getRootFolder().$this->getImageFolder().$this->checkFileName($image["name"]))){
+        if(isset($image["name"]) && file_exists($this->getRootFolder().$this->getImageFolder().$this->checkFileName($image["name"]))){
             unlink($this->getRootFolder().$this->getImageFolder().$this->checkFileName($image["name"]));
             unlink($this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$this->checkFileName($image["name"]));
             return true;
