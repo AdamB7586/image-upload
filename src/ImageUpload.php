@@ -194,10 +194,8 @@ class ImageUpload implements UploadInterface{
     public function uploadImage($image) {
         if($this->checkFileName($image['name']) && $this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)){
             $this->checkDirectoryExists($this->getRootFolder().$this->getImageFolder());
-            if(move_uploaded_file($image['tmp_name'], $this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])))){
-                $this->createImageThumb($image);
-                return true;
-            }
+            $this->createImageThumb($image, true);
+            return move_uploaded_file($image['tmp_name'], $this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])));
         }
         return false;
     }
@@ -205,10 +203,11 @@ class ImageUpload implements UploadInterface{
     /**
      * Create a thumbnail for the given image
      * @param array $image This should be the $_FILES['image']
+     * @param boolean To create the file from the upload set to true else from a file set to false
      */
-    public function createImageThumb($image) {
+    public function createImageThumb($image, $thumbFromFile = true) {
         if($this->createThumb === true){
-            $this->createCroppedImageThumb($image, 0, 0, $this->imageInfo['width'], $this->imageInfo['height']);
+            $this->createCroppedImageThumb($image, 0, 0, $this->imageInfo['width'], $this->imageInfo['height'], $thumbFromFile);
         }
     }
     
@@ -219,14 +218,15 @@ class ImageUpload implements UploadInterface{
      * @param int $y y-coordinate of start point
      * @param int $w Source width
      * @param int $h Source height
+     * @param boolean To create the file from the upload set to true else from a file set to false
      */
-    public function createCroppedImageThumb($image, $x, $y, $w, $h){
+    public function createCroppedImageThumb($image, $x, $y, $w, $h, $thumbFromFile = true){
         if($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)){
             $new_height = intval($this->imageInfo['height'] * ($this->thumbWidth / $this->imageInfo['width']));
             $imgt = $this->types[$this->imageInfo['type']]['type'];
             $imgcreatefrom = $this->types[$this->imageInfo['type']]['create'];
             if(!empty($imgt)) {
-                $old_image = $imgcreatefrom($this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])));
+                $old_image = $imgcreatefrom($thumbFromFile === true ? $image['tmp_name'] : $this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])));
                 imagealphablending($old_image, true);
                 $new_image = imagecreatetruecolor($this->thumbWidth, $new_height);
                 imagecopyresampled($new_image, $old_image, 0, 0, $x, $y, $this->thumbWidth, $new_height, $w, $h);
