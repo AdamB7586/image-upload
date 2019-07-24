@@ -352,7 +352,7 @@ class ImageUpload implements UploadInterface{
             2 => 'The image is too large to upload please make sure your image is smaller than '. number_format(($this->maxFileSize / 100000), 2).'MB in size your image is '.$this->imageSize,
             3 => 'The image is not allowed! Please make sure your image has one of the allowed extensions',
             4 => 'The image with this name has already been uploaded or already exists on our server!',
-            5 => 'The image dimensions are too small. It must be greater than 200px in width and 150px in height'
+            5 => 'The image dimensions are too small. It must be greater than '.$this->minWidth.'px in width and '.$this->minHeight.'px in height'
         ];
         return $errors[intval($this->errorNo)];
     }
