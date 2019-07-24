@@ -182,8 +182,20 @@ class ImageUpload implements UploadInterface{
      * Returns folder where the thumbnails will be uploaded
      * @return string Will return the folder where the thumbnails will be uploaded
      */
-    public function getThumbFolder(){
+    public function getThumbFolder() {
         return $this->thumbnailDir;
+    }
+    
+    /**
+     * Sets the variable if a thumb will be created or not
+     * @param boolean $create This should be either true or false if you want a thumbnail or not
+     * @return $this
+     */
+    public function setCreateThumb($create = true) {
+        if(is_bool($create)){
+            $this->createThumb = $create;
+        }
+        return $this;
     }
     
     /**
@@ -207,6 +219,7 @@ class ImageUpload implements UploadInterface{
      */
     public function createImageThumb($image, $thumbFromFile = true) {
         if($this->createThumb === true){
+            $this->checkDirectoryExists($this->getRootFolder().$this->getImageFolder().$this->getThumbFolder());
             $this->createCroppedImageThumb($image, 0, 0, $this->imageInfo['width'], $this->imageInfo['height'], $thumbFromFile);
         }
     }
