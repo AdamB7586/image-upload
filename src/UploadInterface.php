@@ -1,7 +1,8 @@
 <?php
 namespace ImgUpload;
 
-interface UploadInterface{
+interface UploadInterface
+{
     public function uploadImage($image);
     public function deleteImage($image);
 }
