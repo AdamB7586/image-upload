@@ -4,16 +4,19 @@ namespace ImgUpload\Tests;
 use ImgUpload\ImageUpload;
 use PHPUnit\Framework\TestCase;
 
-class ImageUploadTest extends TestCase{
+class ImageUploadTest extends TestCase
+{
     
     protected $upload;
     
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         $this->upload = new ImageUpload();
     }
     
-    protected function tearDown(): void {
-        $this->upload = NULL;
+    protected function tearDown(): void
+    {
+        $this->upload = null;
     }
     
     /**
@@ -21,7 +24,8 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::__get
      * @covers ImgUpload\ImageUpload::__set
      */
-    public function testGettersSetters() {
+    public function testGettersSetters()
+    {
         $this->markTestIncomplete();
     }
     
@@ -34,7 +38,8 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::setMinHeight
      * @covers ImgUpload\ImageUpload::getMinHeight
      */
-    public function testSetMinWidthHeight() {
+    public function testSetMinWidthHeight()
+    {
         $this->assertEquals(400, $this->upload->getMinWidth());
         $this->assertEquals(300, $this->upload->getMinHeight());
         $this->assertObjectHasAttribute('minWidth', $this->upload->setMinWidthHeight(500, false));
@@ -54,7 +59,8 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::setMaxFileSize
      * @covers ImgUpload\ImageUpload::getMaxFileSize
      */
-    public function testMaxFileSize() {
+    public function testMaxFileSize()
+    {
         $this->assertEquals(20000000, $this->upload->getMaxFileSize());
         $this->assertObjectHasAttribute('maxFileSize', $this->upload->setMaxFileSize('8000000'));
         $this->assertEquals(8000000, $this->upload->getMaxFileSize());
@@ -71,7 +77,8 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::setRootFolder
      * @covers ImgUpload\ImageUpload::getRootFolder
      */
-    public function testRootFolder() {
+    public function testRootFolder()
+    {
         $this->assertObjectHasAttribute('imageSize', $this->upload->setRootFolder(dirname(__FILE__).DIRECTORY_SEPARATOR.'uploads'));
         $this->assertEquals(dirname(__FILE__).DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR, $this->upload->getRootFolder());
         $this->assertObjectHasAttribute('imageSize', $this->upload->setRootFolder(1615515));
@@ -86,7 +93,8 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::setImageFolder
      * @covers ImgUpload\ImageUpload::getImageFolder
      */
-    public function testImageFolder() {
+    public function testImageFolder()
+    {
         $this->assertEquals('images'.DIRECTORY_SEPARATOR, $this->upload->getImageFolder());
         $this->assertObjectHasAttribute('imageSize', $this->upload->setImageFolder(false));
         $this->assertEquals('images'.DIRECTORY_SEPARATOR, $this->upload->getImageFolder());
@@ -103,7 +111,8 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::setThumbFolder
      * @covers ImgUpload\ImageUpload::getThumbFolder
      */
-    public function testThumbFolder() {
+    public function testThumbFolder()
+    {
         $this->assertEquals('thumbs'.DIRECTORY_SEPARATOR, $this->upload->getThumbFolder());
         $this->assertObjectHasAttribute('imageSize', $this->upload->setThumbFolder(false));
         $this->assertEquals('thumbs'.DIRECTORY_SEPARATOR, $this->upload->getThumbFolder());
@@ -132,9 +141,8 @@ class ImageUploadTest extends TestCase{
      * @covers ImgUpload\ImageUpload::getThumbFolder
      * @covers ImgUpload\ImageUpload::getErrorMsg
      */
-    public function testImageUpload() {
+    public function testImageUpload()
+    {
         $this->markTestIncomplete('This test has not yet been implemented');
     }
-    
-    
 }
