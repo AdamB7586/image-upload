@@ -274,7 +274,8 @@ class ImageUpload implements UploadInterface
      * @param array $image This should be the $_FILES['image']
      * @return boolean If a valid image will return true else returns false
      */
-    protected function runChecks($image){
+    protected function runChecks($image)
+    {
         if ($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)) {
             return true;
         }
