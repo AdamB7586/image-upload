@@ -223,7 +223,7 @@ class ImageUpload implements UploadInterface
      */
     public function uploadImage($image)
     {
-        if ($this->checkFileName($image['name']) && $this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)) {
+        if ($this->checkFileName($image['name']) && $this->runChecks($image)) {
             $this->checkDirectoryExists($this->getRootFolder().$this->getImageFolder());
             $this->createImageThumb($image, true);
             return move_uploaded_file($image['tmp_name'], $this->getRootFolder().$this->getImageFolder().basename($this->checkFileName($image['name'])));
@@ -255,7 +255,7 @@ class ImageUpload implements UploadInterface
      */
     public function createCroppedImageThumb($image, $x, $y, $w, $h, $thumbFromFile = true)
     {
-        if ($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)) {
+        if ($this->runChecks($image)) {
             $new_height = intval($this->imageInfo['height'] * ($this->thumbWidth / $this->imageInfo['width']));
             $imgt = $this->types[$this->imageInfo['type']]['type'];
             $imgcreatefrom = $this->types[$this->imageInfo['type']]['create'];
@@ -267,6 +267,18 @@ class ImageUpload implements UploadInterface
                 $imgt($new_image, $this->getRootFolder().$this->getImageFolder().$this->getThumbFolder().$this->checkFileName($image['name']));
             }
         }
+    }
+    
+    /**
+     * Checks to see if all aspects of the image are correct and meet requirements
+     * @param array $image This should be the $_FILES['image']
+     * @return boolean If a valid image will return true else returns false
+     */
+    protected function runChecks($image){
+        if ($this->isImageReal($image) && $this->imageExtCheck($image) && $this->imageSizeCheck($image) && $this->sizeGreaterThan($image) && !$this->imageExist($image)) {
+            return true;
+        }
+        return false;
     }
     
     /**

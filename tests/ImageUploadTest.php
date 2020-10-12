@@ -138,6 +138,7 @@ class ImageUploadTest extends TestCase
      * @covers ImgUpload\ImageUpload::imageExist
      * @covers ImgUpload\ImageUpload::createImageThumb
      * @covers ImgUpload\ImageUpload::createCroppedImageThumb
+     * @covers ImgUpload\ImageUpload::runChecks
      * @covers ImgUpload\ImageUpload::getThumbFolder
      * @covers ImgUpload\ImageUpload::getErrorMsg
      */
