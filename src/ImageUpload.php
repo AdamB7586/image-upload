@@ -218,7 +218,7 @@ class ImageUpload implements UploadInterface
     
     /**
      * Upload an image to the server
-     * @param array $image This should be the $_FILES['image']
+     * @param mixed $image This should be the $_FILES['image']
      * @return boolean Returns true if image uploaded successfully else returns false
      */
     public function uploadImage($image)
@@ -246,7 +246,7 @@ class ImageUpload implements UploadInterface
     
     /**
      * Create a cropped image thumbnail for the given image based on given locations
-     * @param array $image This should be the $_FILES['image']
+     * @param mixed $image This should be the $_FILES['image']
      * @param int $x x-coordinate of start point
      * @param int $y y-coordinate of start point
      * @param int $w Source width
